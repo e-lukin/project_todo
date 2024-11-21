@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список задач</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .priority {
+            font-weight: bold;
+        }
+        .priority.low {
+            color: #009688;
+        }
+        .priority.medium {
+            color: #FFC107;
+        }
+        .priority.high {
+            color: #F44336;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .status.completed {
+            color: green;
+        }
+        .status.not-completed {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Список задач</h1>
+    </header>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Приоритет</th>
+                    <th>Дедлайн</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>
+                            {% if task.priority %}
+                                <span class="priority {{ task.priority.name|lower }}">
+                                    {{ task.priority.name }}
+                                </span>
+                            {% else %}
+                                Без приоритета
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if task.due_date %}
+                                {{ task.due_date }}
+                            {% else %}
+                                Не задан
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if task.is_completed %}
+                                <span class="status completed">Завершена</span>
+                            {% else %}
+                                <span class="status not-completed">Не завершена</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Нет задач для отображения</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
